@@ -21,6 +21,7 @@ class CTF:
     description: str
     restrictions: str
     duration: timedelta
+    weight: float
 
     def __init__(self, json_obj: dict):
         self.cid = json_obj.get('id', 0)
@@ -53,11 +54,14 @@ class CTF:
             self.restrictions = 'Unknown'
         self.duration = timedelta(**json_obj.get('duration', dict()))
 
+        self.weight = json_obj.get('weight', 0.0)
+
     def generate_embed(self):
         return Embed(title=self.name, color=0xFF0035, url=self.url, description=self.description,
                      timestamp=self.start, thumbnail=EmbedThumbnail(url=self.logo),
                      footer=EmbedFooter(text=f' ⏳ {self.duration} | 📌 {self.location} |'
-                                             f' ⛳ {self.format} | 👮 {self.restrictions}')
+                                             f' ⛳ {self.format} | 👮 {self.restrictions} |'
+                                             f' 🏋️ {self.weight}')
                      )
 
     @staticmethod
